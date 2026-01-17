@@ -1,0 +1,18 @@
+[package]
+name = "appdmg-rs"
+version = "0.1.0"
+edition = "2021"
+description = "A pure Rust implementation of macOS DMG creation with custom layout"
+license = "MIT"
+
+[dependencies]
+anyhow = "1.0"
+byteorder = "1.5"
+base64 = "0.22"
+image = { version = "0.24", default-features = false, features = ["png"] }
+plist = "1.6"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.0", features = ["fs", "process", "rt", "macros"] }
+tracing = "0.1"
+icns = "0.3" # Optional, if we want to parse icons? No we just copy.
