@@ -83,7 +83,9 @@ pub async fn build(config: &DmgConfig, final_dmg_path: &Path) -> Result<()> {
         .arg("-volname").arg(&config.title)
         .arg("-fs").arg("HFS+") 
         .arg("-format").arg("UDRW").arg("-ov")
-        .arg(&temp_dmg_path).status()?;
+        .arg(&temp_dmg_path)
+        .arg("-quiet")
+        .status()?;
     if !status.success() { return Err(anyhow::anyhow!("hdiutil create failed")); }
 
     // 4. Attach
@@ -134,10 +136,10 @@ pub async fn build(config: &DmgConfig, final_dmg_path: &Path) -> Result<()> {
     let _ = Command::new("sync").status();
 
     // 6. Detach & Convert
-    Command::new("hdiutil").arg("detach").arg(mount_point).arg("-force").status()?;
+    Command::new("hdiutil").arg("detach").arg(mount_point).arg("-force").arg("-quiet").status()?;
     
     if final_dmg_path.exists() { fs::remove_file(final_dmg_path).await?; }
-    let status = Command::new("hdiutil").arg("convert").arg(&temp_dmg_path).arg("-format").arg("UDZO").arg("-o").arg(final_dmg_path).status()?;
+    let status = Command::new("hdiutil").arg("convert").arg(&temp_dmg_path).arg("-format").arg("UDZO").arg("-o").arg(final_dmg_path).arg("-quiet").status()?;
     
     let _ = fs::remove_dir_all(&temp_dir).await;
     let _ = fs::remove_file(&temp_dmg_path).await;
