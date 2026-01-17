@@ -4,7 +4,7 @@ use serde::{Serialize};
 use anyhow::{Result, Context};
 use base64::Engine;
 
-use crate::service::build::ds_store_template::DS_STORE_CLEAN_B64;
+use crate::ds_store_template::DS_STORE_CLEAN_B64;
 
 #[derive(Debug)]
 pub struct Entry {
